@@ -12,7 +12,7 @@ data class Card (
     val type: Int,
     val cardholder_name: String,
     val valid: String,
-    var balance: Double
-    //var transaction: List<Transaction>
+    var balance: Double,
+    var transaction: List<Transaction>
 
 )

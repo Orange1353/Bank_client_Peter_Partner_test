@@ -1,17 +1,17 @@
 package com.example.bank_client
-
-import android.content.ContentValues
+import android.app.PendingIntent.getActivity
+import java.io.File
 import android.os.Bundle
-import android.util.Log
+import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_cards_1.*
-import kotlinx.android.synthetic.main.fragment_blank.view.*
-import kotlinx.android.synthetic.main.fragment_blank.*
+import com.google.android.material.internal.ContextUtils.getActivity
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,57 +24,56 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class BlankFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    var userNum : Int = 1
+    lateinit var userNumInCards : UserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-  //     val transList = listOf( Transaction("Dropppdp", "https://www.iconfinder.com/icons/143870/download/png/48", "12/09/2020", 333.6))
+        userNumInCards = ViewModelProvider(this).get(UserViewModel::class.java)
 
- ///    recyclerView.layoutManager = LinearLayoutManager(activity)
-  //      recyclerView.adapter = TransactionAdapter(transList)
+        //Узнаем текущий номер юзера
+        try {
+            userNum = activity?.let{
+                (it as MainActivity).ReadFile()
 
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-
-
+            }!!
+            userNumInCards.getnum(userNum)
         }
+        catch (e: Exception) {
+            userNumInCards.getnum(userNum)
+        }
+
+    /*    activity?.let{
+            (it as MainActivity).ReadFile()
+        }
+    */
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-     //   return inflater.inflate(R.layout.fragment_blank, container, false)
 
-        val transList = listOf( Transaction("Dropppdp", "https://www.iconfinder.com/icons/143870/download/png/48", "12/09/2020", 333.6),Transaction("Dropppdp", "https://www.iconfinder.com/icons/143870/download/png/48", "12/09/2020", 333.6),Transaction("Dropppdp", "https://www.iconfinder.com/icons/143870/download/png/48", "12/09/2020", 333.6), Transaction("Dropppdp", "https://www.iconfinder.com/icons/143870/download/png/48", "12/09/2020", 333.6), Transaction("Dropppdp", "https://www.iconfinder.com/icons/143870/download/png/48", "12/09/2020", 333.6), Transaction("Dropppdp", "https://www.iconfinder.com/icons/143870/download/png/48", "12/09/2020", 333.6))
+
+      //Получим текущего пользователя
+        val user = userNumInCards.getCurrentUser()
+      // И его список транзакций
+        val transList = user!!.transaction
+
+
+        //где находится
         val rootView = inflater.inflate(R.layout.fragment_blank, container, false)
+
         val recyclerViewTrans = rootView.findViewById(R.id.recyclerViewTrans) as RecyclerView // Add this
+
+        //адаптор
         recyclerViewTrans.layoutManager = LinearLayoutManager(activity)
         recyclerViewTrans.adapter = TransactionAdapter(transList)
+
         return rootView
 
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment BlankFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic fun newInstance(param1: String, param2: String) =
-                BlankFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
 
-                    }
-                }
-    }
 }

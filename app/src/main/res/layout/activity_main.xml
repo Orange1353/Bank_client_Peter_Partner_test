@@ -72,12 +72,12 @@
             tools:ignore="MissingConstraints" />
 
         <ImageView
-            android:id="@+id/group"
+            android:id="@+id/groupcard"
             android:layout_width="39dp"
             android:layout_height="24dp"
             android:layout_marginStart="38dp"
             android:layout_marginTop="114dp"
-            android:background="@drawable/ic_group"
+
             android:elevation="8dp" />
 
         <TextView
@@ -216,7 +216,9 @@
         android:background="@drawable/ic_group_18_background"
         android:elevation="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/current" />
+        app:layout_constraintTop_toBottomOf="@+id/current"
+        android:onClick="clickGBR"
+        />
 
 
     <ImageButton
@@ -231,14 +233,14 @@
         app:layout_constraintEnd_toStartOf="@+id/RUB"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/GBR"
-        app:layout_constraintTop_toBottomOf="@+id/current" />
+        app:layout_constraintTop_toBottomOf="@+id/current"
+        android:onClick="clickEUR"/>
 
     <ImageButton
         android:id="@+id/RUB"
         android:layout_width="110dp"
         android:layout_height="110dp"
-
-
+        android:onClick="clickRUB"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="18dp"
         android:background="@drawable/ic_group_19_background"

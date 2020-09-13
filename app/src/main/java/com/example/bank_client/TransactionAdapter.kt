@@ -3,9 +3,12 @@ package com.example.bank_client
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.list_item_trans.view.*
+import kotlinx.android.synthetic.main.list_item_trans.view.amount
 
 class TransactionAdapter(val transactions: List<Transaction>) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
@@ -16,12 +19,17 @@ class TransactionAdapter(val transactions: List<Transaction>) : RecyclerView.Ada
         return TransactionViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.list_item_trans, parent, false))
+
+
+
     }
 
     override fun getItemCount() = transactions.size
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
 
+
+        //Заполнение списка транзакций
         val transaction = transactions[position]
         holder.view.namelogo.text = transaction.title
 
@@ -30,43 +38,31 @@ class TransactionAdapter(val transactions: List<Transaction>) : RecyclerView.Ada
             .load(transaction.icon_url)
             .into(holder.view.logo)
 
+        if(transaction.amount < 0)
+        holder.view.amount.text= ("- $ " + (transaction.amount*(-1)).toString())
+        else
+            holder.view.amount.text= ("$ " + (transaction.amount*(-1)).toString())
 
+        holder.view.data.text = transaction.date
+
+        if(transaction.amount < 0)
+            holder.view.amount_2.text= ("- ₽ " + (transaction.amount*(-75)).toString())
+        else
+
+        holder.view.amount_2.text= ("₽" + (transaction.amount*75).toString())
     }
 
 
     class TransactionViewHolder(val view: View) : RecyclerView.ViewHolder(view)
-}
 
-
-
-
-/*
-class CardAdapter(val cards : List<Card>) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
-
-
-
-
-    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        val card = cards[position]
-        holder.view.number.text = card.card_number
-
-
-        Glide.with(holder.view.group)
-            .load(card.type)
-            .into(holder.view.group)
-
-        if (card.blueCircle)
-            Glide.with(holder.view.group)
-                .load(R.drawable.ic_ellipse_1)
-                .into(holder.view.circle)
-
-
+    fun clickRUB5(view: View) {
 
     }
 
 
-
-
 }
 
-* */
+
+
+
+
